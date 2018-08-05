@@ -1,4 +1,4 @@
-package com.nicolas.gts.muchurch;
+package com.nicolas.gts.mychurch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
