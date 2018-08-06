@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
+import com.nicolas.gts.mychurch.repositories.PostRepository;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 
@@ -18,12 +19,13 @@ public class ChurchService {
 	
 	@Autowired
 	private ChurchRepository repo;
-	
+
 	public Church find(Integer id) {
 		Optional<Church> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + Church.class.getName()));
 	}
+	
 	
 	public List<Church> findAll(){
 		return repo.findAll();

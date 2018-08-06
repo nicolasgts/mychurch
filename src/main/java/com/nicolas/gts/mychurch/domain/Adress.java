@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Adress implements Serializable{
@@ -26,7 +26,7 @@ public class Adress implements Serializable{
 	private String district;
 	private String zipcode;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="church_id")
 	private Church church;
@@ -41,7 +41,7 @@ public class Adress implements Serializable{
 
 	
 
-	public Adress(Integer id, String street, String number, String complement, String district, String zipcode,
+	public Adress(Integer id, String street, String number, String complement, String district,City city, String zipcode,
 			Church church) {
 		super();
 		this.id = id;
@@ -51,6 +51,7 @@ public class Adress implements Serializable{
 		this.district = district;
 		this.zipcode = zipcode;
 		this.church = church;
+		this.city = city;
 	}
 
 

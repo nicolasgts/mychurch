@@ -64,13 +64,16 @@ public class MychurchApplication implements CommandLineRunner {
 		City c2 = new City(null, "São Paulo",state2);
 		City c3 = new City(null, "Campinas", state2);
 		
+		
+		
 		state1.getCities().addAll(Arrays.asList(c1));
 		state2.getCities().addAll(Arrays.asList(c2, c3));
 		
 		stateRepository.saveAll(Arrays.asList(state1, state2));
+		cityRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
-		Adress ad1 = new Adress(null,"Rua Idenfonso Aires","204A","casa","Prata","58400000",church1);
-		Adress ad2 = new Adress(null,"Av. Barão do Rio Branco","302","apartamento","Centro","5837377",church2);
+		Adress ad1 = new Adress(null,"Rua Idenfonso Aires","204A","casa","Prata",c1,"58400000",church1);
+		Adress ad2 = new Adress(null,"Av. Barão do Rio Branco","302","apartamento","Centro",c2,"5837377",church2);
 		
 		adressRepository.saveAll(Arrays.asList(ad1, ad2));
 		

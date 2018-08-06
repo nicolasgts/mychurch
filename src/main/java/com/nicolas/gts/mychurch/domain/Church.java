@@ -12,7 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Church implements Serializable {
@@ -31,7 +30,6 @@ public class Church implements Serializable {
 	// private Contact contact;
 	// private Midia midia;
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy="church")
 	private List<Adress> adresses = new ArrayList<>();
 
@@ -39,7 +37,7 @@ public class Church implements Serializable {
 	private List<Post> posts = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany
+	@OneToMany(mappedBy="church")
 	private List<User> usuarios = new ArrayList<>();
 
 	public Church() {
