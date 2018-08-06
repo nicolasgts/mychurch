@@ -16,31 +16,42 @@ import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.services.ChurchService;
 
 @RestController
-@RequestMapping(value="/churches")
+@RequestMapping(value = "/churches")
 public class ChurchResourse {
-		
+
 	@Autowired
 	private ChurchService service;
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Church> find(@PathVariable Integer id) {
 		Church obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		List<Church> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Church obj) {
-	obj = service.insert(obj);
-	URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-		.path("/{id}").buildAndExpand(obj.getId()).toUri();
-	return ResponseEntity.created(uri).build();
-}
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Church obj, @PathVariable Integer id) {
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
 }

@@ -56,6 +56,7 @@ public class ChurchService {
 	
 	private void updateData(Church newObj, Church obj) {
 		newObj.setName(obj.getName());
+		newObj.setDescription(obj.getDescription());
 	}
 	
 
