@@ -8,43 +8,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Church implements Serializable{
+public class State implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	@Id
+ 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
-	private String cnpj;
 	private String name;
 	
-	@Lob
-	private String description;
-	//private Contato contato;
-	//private endereco endereco;
-	//private Midia midia; 
+	@OneToMany(mappedBy="state")
+	private List<City> cities = new ArrayList<>();
 	
-	//@OneToMany
-	//private List<Post> posts = new ArrayList<>();
-	
-	public Church() {
-		
+	public State() {
 	}
 
-
-	public Church(Integer id, String cnpj, String name, String description) {
+	public State(Integer id, String name) {
 		super();
 		this.id = id;
-		this.cnpj = cnpj;
 		this.name = name;
-		this.description = description;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -57,28 +42,18 @@ public class Church implements Serializable{
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public List<City> getCities() {
+		return cities;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCities(List<City> cities) {
+		this.cities = cities;
 	}
-	
-	
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
 
 	@Override
 	public int hashCode() {
@@ -96,7 +71,7 @@ public class Church implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Church other = (Church) obj;
+		State other = (State) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -104,8 +79,12 @@ public class Church implements Serializable{
 			return false;
 		return true;
 	}
-
-
+	
+	
+	
+	
 	
 
+	
+	
 }

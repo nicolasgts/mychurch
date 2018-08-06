@@ -1,83 +1,107 @@
 package com.nicolas.gts.mychurch.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 
 @Entity
-public class Church implements Serializable{
-	
+public class Post implements Serializable{
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
-	private String cnpj;
-	private String name;
-	
+	private String title;
 	@Lob
 	private String description;
-	//private Contato contato;
-	//private endereco endereco;
-	//private Midia midia; 
+	private String linkImage;
+	private String linkVideo;
 	
-	//@OneToMany
-	//private List<Post> posts = new ArrayList<>();
+	public Post(){}
 	
-	public Church() {
-		
-	}
+	
 
-
-	public Church(Integer id, String cnpj, String name, String description) {
+	public Post(Integer id, String title, String description) {
 		super();
 		this.id = id;
-		this.cnpj = cnpj;
-		this.name = name;
+		this.title = title;
 		this.description = description;
 	}
+
+	public Post(Integer id, String title, String description, String linkImage, String linkVideo) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.linkImage = linkImage;
+		this.linkVideo = linkVideo;
+	}
+
 
 
 	public Integer getId() {
 		return id;
 	}
 
+
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+
+
+	public String getTitle() {
+		return title;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	public String getCnpj() {
-		return cnpj;
+
+
+
+	public String getLinkImage() {
+		return linkImage;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+
+
+	public void setLinkImage(String linkImage) {
+		this.linkImage = linkImage;
 	}
+
+
+
+	public String getLinkVideo() {
+		return linkVideo;
+	}
+
+
+
+	public void setLinkVideo(String linkVideo) {
+		this.linkVideo = linkVideo;
+	}
+
 
 
 	@Override
@@ -88,6 +112,8 @@ public class Church implements Serializable{
 		return result;
 	}
 
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -96,7 +122,7 @@ public class Church implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Church other = (Church) obj;
+		Post other = (Post) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -104,8 +130,9 @@ public class Church implements Serializable{
 			return false;
 		return true;
 	}
-
-
 	
-
+	
+	
+	
+	
 }
