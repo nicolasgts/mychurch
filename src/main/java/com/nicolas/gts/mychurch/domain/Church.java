@@ -11,31 +11,40 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-public class Church implements Serializable{
-	
+public class Church implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String cnpj;
 	private String name;
-	
+
 	@Lob
 	private String description;
-	//private Contato contato;
-	//private endereco endereco;
-	//private Midia midia; 
+	// private Contact contact;
+	// private Midia midia;
 	
-	//@OneToMany
-	//private List<Post> posts = new ArrayList<>();
-	
-	public Church() {
-		
-	}
+	@JsonManagedReference
+	@OneToMany(mappedBy="church")
+	private List<Adress> adresses = new ArrayList<>();
 
+	@OneToMany(mappedBy = "church")
+	private List<Post> posts = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany
+	private List<User> usuarios = new ArrayList<>();
+
+	public Church() {
+
+	}
 
 	public Church(Integer id, String cnpj, String name, String description) {
 		super();
@@ -44,7 +53,6 @@ public class Church implements Serializable{
 		this.name = name;
 		this.description = description;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -57,7 +65,7 @@ public class Church implements Serializable{
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -69,8 +77,7 @@ public class Church implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -79,6 +86,21 @@ public class Church implements Serializable{
 		this.cnpj = cnpj;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public List<Adress> getAdresses() {
+		return adresses;
+	}
+
+	public void setAdresses(List<Adress> adresses) {
+		this.adresses = adresses;
+	}
 
 	@Override
 	public int hashCode() {
@@ -104,8 +126,5 @@ public class Church implements Serializable{
 			return false;
 		return true;
 	}
-
-
-	
 
 }

@@ -1,5 +1,6 @@
 package com.nicolas.gts.mychurch;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.City;
+import com.nicolas.gts.mychurch.domain.PostArticle;
+import com.nicolas.gts.mychurch.domain.PostEvent;
 import com.nicolas.gts.mychurch.domain.State;
+import com.nicolas.gts.mychurch.repositories.AdressRepository;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
 import com.nicolas.gts.mychurch.repositories.CityRepository;
 import com.nicolas.gts.mychurch.repositories.PostRepository;
@@ -29,6 +34,12 @@ public class MychurchApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CityRepository cityRepository;
+	
+	@Autowired
+	private AdressRepository adressRepository;
+	
+	
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(MychurchApplication.class, args);
@@ -58,7 +69,21 @@ public class MychurchApplication implements CommandLineRunner {
 		
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		
+		Adress ad1 = new Adress(null,"Rua Idenfonso Aires","204A","casa","Prata","58400000",church1);
+		Adress ad2 = new Adress(null,"Av. Barão do Rio Branco","302","apartamento","Centro","5837377",church2);
 		
-
+		adressRepository.saveAll(Arrays.asList(ad1, ad2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		PostEvent pte1 = new PostEvent(null, "Culto de Oração", "",church1, sdf.parse("15/08/2018 19:30"),  sdf.parse("15/08/2018 21:30"));
+		PostEvent pte2 = new PostEvent(null, "Culto Matinal", "",church1, sdf.parse("13/08/2018 06:30"),  sdf.parse("15/08/2018 08:30"));
+		PostArticle pta1 = new PostArticle(null, "Os principios da biblia","Artigo sobre a pregação do culto de oração", church2, "resumo", "desconhecido",sdf.parse("18/08/2018 10:00"));
+		PostEvent pte3 = new PostEvent(null, "Culto Matinal", "",church2, sdf.parse("13/08/2018 06:30"),  sdf.parse("15/08/2018 08:30"));
+		
+		
+		postRepository.saveAll(Arrays.asList(pte1, pta1,pte2,pte3));
+		
+		
 	}
 }

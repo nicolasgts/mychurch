@@ -6,10 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Post implements Serializable{
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Post implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,27 +27,30 @@ public class Post implements Serializable{
 	private String linkImage;
 	private String linkVideo;
 	
+	@ManyToOne
+	@JoinColumn(name="church_id")
+	private Church church;
+	
 	public Post(){}
 	
-	
 
-	public Post(Integer id, String title, String description) {
+	public Post(Integer id, String title, String description, Church church) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.church = church;
 	}
 
-	public Post(Integer id, String title, String description, String linkImage, String linkVideo) {
+	public Post(Integer id, String title, String description, String linkImage, String linkVideo, Church church) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.linkImage = linkImage;
 		this.linkVideo = linkVideo;
+		this.church = church;
 	}
-
-
 
 	public Integer getId() {
 		return id;
