@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Church implements Serializable{
@@ -18,6 +19,8 @@ public class Church implements Serializable{
 	
 	private String name;
 	private String agenda;
+	
+	@Lob
 	private String description;
 	//private Contato contato;
 	//private endereco endereco;
