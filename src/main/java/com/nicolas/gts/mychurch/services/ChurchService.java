@@ -3,6 +3,8 @@ package com.nicolas.gts.mychurch.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -10,9 +12,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
+import com.nicolas.gts.mychurch.domain.City;
+import com.nicolas.gts.mychurch.domain.User;
 import com.nicolas.gts.mychurch.dto.ChurchDTO;
+import com.nicolas.gts.mychurch.dto.ChurchNewDTO;
+import com.nicolas.gts.mychurch.repositories.AdressRepository;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
+import com.nicolas.gts.mychurch.repositories.UserRepository;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 
@@ -22,6 +30,12 @@ public class ChurchService {
 	
 	@Autowired
 	private ChurchRepository repo;
+	
+	@Autowired
+	private UserRepository repoUser;
+	
+	@Autowired
+	private AdressRepository repoAdress;
 
 	public Church find(Integer id) {
 		Optional<Church> obj = repo.findById(id);
@@ -33,10 +47,14 @@ public class ChurchService {
 	public List<Church> findAll(){
 		return repo.findAll();
 	}
-	
+
+	@Transactional
 	public Church insert(Church obj) {
 		obj.setId(null);
-		return repo.save(obj);
+		obj = repo.save(obj);
+		repoAdress.saveAll(obj.getAdresses());
+		repoUser.saveAll(obj.getUsers());
+		return obj;
 	}
 	
 	public Church update(Church obj) {
@@ -70,6 +88,20 @@ public class ChurchService {
 	
 	public Church fromDTO(ChurchDTO objDto) {
 		return new Church(objDto.getId(), objDto.getCnpj(), objDto.getName(), objDto.getDescription());
+	}
+	
+	public Church fromDTO(ChurchNewDTO objDto) {
+		Church church = new  Church(null, objDto.getCnpj(), objDto.getName(), objDto.getDescription());
+		City city = new City(objDto.getCity_id(), null, null);
+		Adress ad = new Adress(null, objDto.getStreet(), objDto.getNumber(), objDto.getComplement(),objDto.getDistrict(), city, objDto.getZipcode(), church);
+		// TODO password do user
+		User user = new User(null, objDto.getName_user(), objDto.getEmail_user(), objDto.getPassword(), objDto.getCpf_user(), church);
+		church.getAdresses().add(ad);
+		church.getUsers().add(user);
+		
+		
+		return church;
+		
 	}
 
 }

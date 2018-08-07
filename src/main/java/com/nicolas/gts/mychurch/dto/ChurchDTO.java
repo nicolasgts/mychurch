@@ -30,7 +30,7 @@ public class ChurchDTO implements Serializable {
 	private List<Adress> adresses = new ArrayList<>();
 	
 	@NotEmpty(message="this field is required")
-	@Length(min=14,max=18,  message="Cnpj Invalid")
+	@CNPJ(message="Cnpj Invalid")
 	private String cnpj;
 
 	public ChurchDTO() {

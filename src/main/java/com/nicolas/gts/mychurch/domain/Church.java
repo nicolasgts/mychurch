@@ -32,8 +32,6 @@ public class Church implements Serializable {
 
 	@Lob
 	private String description;
-	// private Contact contact;
-	// private Midia midia;
 	
 	@OneToMany(mappedBy="church")
 	private List<Adress> adresses = new ArrayList<>();
@@ -43,7 +41,7 @@ public class Church implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="church")
-	private List<User> usuarios = new ArrayList<>();
+	private List<User> users = new ArrayList<>();
 
 	public Church() {
 
@@ -103,6 +101,15 @@ public class Church implements Serializable {
 
 	public void setAdresses(List<Adress> adresses) {
 		this.adresses = adresses;
+	}
+	
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	@Override

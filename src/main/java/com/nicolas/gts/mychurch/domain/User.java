@@ -1,6 +1,8 @@
 package com.nicolas.gts.mychurch.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,20 +27,16 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
+	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
 
 	@Column(nullable = false,unique=true)
 	private String email;
 	
-	@JsonIgnore
-	private String senha;
+	@Column(nullable = false,unique=true)
+	private String cpf;
 	
-	
-	@ManyToOne
-	@JoinColumn(name="adress_user_id")
-	private Adress adress;
-
 //	@ElementCollection(fetch=FetchType.EAGER)
 //	@CollectionTable(name="PROFILES")
 //	private Set<Integer> profiles = new HashSet<>();
@@ -50,14 +49,22 @@ public class User implements Serializable {
 	
 	public User() {}
 
-	public User(Integer id, String name, String password, String email, String senha, Adress adress, Church church) {
+	public User(Integer id, String name, String email, String password , String cpf) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.email = email;
-		this.senha = senha;
-		this.adress = adress;
+		this.cpf = cpf;
+	}
+	
+	public User(Integer id, String name, String email, String password , String cpf, Church church) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.cpf = cpf;
 		this.church = church;
 	}
 
@@ -93,28 +100,21 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public Adress getAdress() {
-		return adress;
-	}
-
-	public void setAdress(Adress adress) {
-		this.adress = adress;
-	}
-
 	public Church getChurch() {
 		return church;
 	}
 
 	public void setChurch(Church church) {
 		this.church = church;
+	}
+	
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@Override
