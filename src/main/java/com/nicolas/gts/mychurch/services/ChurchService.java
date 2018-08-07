@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nicolas.gts.mychurch.domain.Church;
+import com.nicolas.gts.mychurch.dto.ChurchDTO;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
@@ -65,6 +66,10 @@ public class ChurchService {
 	public Page<Church> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Church fromDTO(ChurchDTO objDto) {
+		return new Church(objDto.getId(), objDto.getCnpj(), objDto.getName(), objDto.getDescription());
 	}
 
 }

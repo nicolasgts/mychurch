@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
@@ -15,9 +19,19 @@ public class ChurchDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message="this field is required")
+	@Length(min=10,max=70,  message="The size should be between 10 and 70 characters")
 	private String name;
+	
+	
+	@Length(min=5,max=300,  message="The size should be between 5 and 300 characters")
 	private String description;
 	private List<Adress> adresses = new ArrayList<>();
+	
+	@NotEmpty(message="this field is required")
+	@Length(min=14,max=18,  message="Cnpj Invalid")
+	private String cnpj;
 
 	public ChurchDTO() {
 
@@ -28,6 +42,7 @@ public class ChurchDTO implements Serializable {
 		name = obj.getName();
 		description = obj.getDescription();
 		adresses = obj.getAdresses();
+		cnpj = obj.getCnpj();
 	
 	}
 
@@ -64,5 +79,13 @@ public class ChurchDTO implements Serializable {
 		this.adresses = adresses;
 	}
 
+	public String getCnpj() {
+		return cnpj;
+	}
 
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	
 }
