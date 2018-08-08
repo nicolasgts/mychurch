@@ -30,6 +30,7 @@ public class UserNewDTO implements Serializable{
 	private String email;
 	
 	@Column(nullable = false)
+	@NotEmpty(message="this field is required")
 	@Length(min=6,max=12,  message="The size should be between 6 and 12 characters")
 	private String password;
 

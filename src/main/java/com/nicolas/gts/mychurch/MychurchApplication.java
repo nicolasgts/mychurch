@@ -7,17 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.City;
 import com.nicolas.gts.mychurch.domain.Post;
 import com.nicolas.gts.mychurch.domain.State;
+import com.nicolas.gts.mychurch.domain.User;
+import com.nicolas.gts.mychurch.domain.enums.Profile;
 import com.nicolas.gts.mychurch.repositories.AdressRepository;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
 import com.nicolas.gts.mychurch.repositories.CityRepository;
 import com.nicolas.gts.mychurch.repositories.PostRepository;
 import com.nicolas.gts.mychurch.repositories.StateRepository;
+import com.nicolas.gts.mychurch.repositories.UserRepository;
 
 @SpringBootApplication
 public class MychurchApplication implements CommandLineRunner {
@@ -37,6 +41,12 @@ public class MychurchApplication implements CommandLineRunner {
 	@Autowired
 	private AdressRepository adressRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	
 	
 	
@@ -47,6 +57,8 @@ public class MychurchApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
+		
+		
 		Church church1 = new Church(null,"44.877.055/0001-50","Igreja o Brasil Para Cristo","Igreja evangelica");
 		Church church2 = new Church(null,"15.123.280/0001-00","Igreja Metodista","A Igreja Metodista cumpre a sua missão "
 				+ "realizando o culto de Deus, pregando a Sua Palavra, ministrando os sacramentos, promovendo a fraternidade e a disciplina cristãs e proporcionando a seus membros meios "
@@ -54,6 +66,11 @@ public class MychurchApplication implements CommandLineRunner {
 		
 
 		churchRepository.saveAll(Arrays.asList(church1, church2));
+		
+		User user1 = new User(null, "Nicolas", "nicolas@email.com",pe.encode("123456") , "082.945.970-74", church1);
+		User user2 = new User(null, "Fulano", "fulano@email.com",pe.encode("123456") , "448.265.770-01", church2);
+		user1.addProfile(Profile.ADMIN);
+		userRepository.saveAll(Arrays.asList(user1, user2));
 		
 		
 		State state1 = new State(null, "Paraíba");

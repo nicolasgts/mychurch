@@ -16,6 +16,7 @@ import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.City;
 import com.nicolas.gts.mychurch.domain.User;
+import com.nicolas.gts.mychurch.domain.enums.Profile;
 import com.nicolas.gts.mychurch.dto.ChurchDTO;
 import com.nicolas.gts.mychurch.dto.ChurchNewDTO;
 import com.nicolas.gts.mychurch.repositories.AdressRepository;
@@ -96,6 +97,7 @@ public class ChurchService {
 		City city = new City(objDto.getCity_id(), null, null);
 		Adress ad = new Adress(null, objDto.getStreet(), objDto.getNumber(), objDto.getComplement(),objDto.getDistrict(), city, objDto.getZipcode(), church);
 		User user = new User(null, objDto.getName_user(), objDto.getEmail_user(), objDto.getPassword(), objDto.getCpf_user(), church);
+		user.addProfile(Profile.ADMIN);
 		church.getAdresses().add(ad);
 		church.getUsers().add(user);	
 		

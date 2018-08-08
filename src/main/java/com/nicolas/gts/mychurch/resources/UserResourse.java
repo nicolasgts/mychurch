@@ -1,6 +1,8 @@
 package com.nicolas.gts.mychurch.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.User;
+import com.nicolas.gts.mychurch.dto.ChurchDTO;
 import com.nicolas.gts.mychurch.dto.UserDTO;
 import com.nicolas.gts.mychurch.dto.UserNewDTO;
 import com.nicolas.gts.mychurch.services.UserService;
@@ -34,6 +38,7 @@ public class UserResourse {
 		return ResponseEntity.ok().body(objDTO);
 	}
 	
+
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UserNewDTO objDto) {
 		User obj = service.fromDTO(objDto);

@@ -1,5 +1,6 @@
 package com.nicolas.gts.mychurch.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nicolas.gts.mychurch.domain.Church;
@@ -23,6 +25,9 @@ import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 public class UserService {
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	
 	public User find(Integer id) {
@@ -72,7 +77,7 @@ public class UserService {
 	}
 	
 	public User fromDTO(UserNewDTO objDto) {
-		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword(), objDto.getCpf(), objDto.getChurch());
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), pe.encode(objDto.getPassword()), objDto.getCpf(), objDto.getChurch());
 	}
 
 
