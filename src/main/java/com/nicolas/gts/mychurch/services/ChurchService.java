@@ -76,8 +76,9 @@ public class ChurchService {
 	
 	
 	private void updateData(Church newObj, Church obj) {
-		newObj.setName(obj.getName());
-		newObj.setDescription(obj.getDescription());
+		if(obj.getName() != null) newObj.setName(obj.getName());
+		if(obj.getDescription() != null) newObj.setDescription(obj.getDescription());
+		if(obj.getCnpj() != null) newObj.setCnpj(obj.getCnpj());
 	}
 	
 	
@@ -94,11 +95,9 @@ public class ChurchService {
 		Church church = new  Church(null, objDto.getCnpj(), objDto.getName(), objDto.getDescription());
 		City city = new City(objDto.getCity_id(), null, null);
 		Adress ad = new Adress(null, objDto.getStreet(), objDto.getNumber(), objDto.getComplement(),objDto.getDistrict(), city, objDto.getZipcode(), church);
-		// TODO password do user
 		User user = new User(null, objDto.getName_user(), objDto.getEmail_user(), objDto.getPassword(), objDto.getCpf_user(), church);
 		church.getAdresses().add(ad);
-		church.getUsers().add(user);
-		
+		church.getUsers().add(user);	
 		
 		return church;
 		

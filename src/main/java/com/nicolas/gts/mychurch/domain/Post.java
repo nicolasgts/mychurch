@@ -1,6 +1,7 @@
 package com.nicolas.gts.mychurch.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Post implements Serializable{
+public class Post implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,10 +22,13 @@ public abstract class Post implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String title;
+	
 	@Lob
 	private String description;
 	private String linkImage;
 	private String linkVideo;
+	
+	private Date postDate;
 	
 	@ManyToOne
 	@JoinColumn(name="church_id")
@@ -40,6 +43,7 @@ public abstract class Post implements Serializable{
 		this.title = title;
 		this.description = description;
 		this.church = church;
+		this.postDate = new Date();
 	}
 
 	public Post(Integer id, String title, String description, String linkImage, String linkVideo, Church church) {
@@ -50,6 +54,7 @@ public abstract class Post implements Serializable{
 		this.linkImage = linkImage;
 		this.linkVideo = linkVideo;
 		this.church = church;
+		this.postDate = new Date();
 	}
 
 	public Integer getId() {
@@ -109,7 +114,26 @@ public abstract class Post implements Serializable{
 	public void setLinkVideo(String linkVideo) {
 		this.linkVideo = linkVideo;
 	}
+	
+	
+	public Date getPostDate() {
+		return postDate;
+	}
 
+
+	public void setPostDate(Date postDate) {
+		this.postDate = postDate;
+	}
+
+
+	public Church getChurch() {
+		return church;
+	}
+
+
+	public void setChurch(Church church) {
+		this.church = church;
+	}
 
 
 	@Override

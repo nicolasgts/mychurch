@@ -11,8 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.City;
-import com.nicolas.gts.mychurch.domain.PostArticle;
-import com.nicolas.gts.mychurch.domain.PostEvent;
+import com.nicolas.gts.mychurch.domain.Post;
 import com.nicolas.gts.mychurch.domain.State;
 import com.nicolas.gts.mychurch.repositories.AdressRepository;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
@@ -48,15 +47,15 @@ public class MychurchApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Church church1 = new Church(null,"0909992929-29","Igreja o Brasil Para Cristo","Igreja evangelica");
-		Church church2 = new Church(null,"0902929388-21","Igreja Metodista","A Igreja Metodista cumpre a sua missão "
+		Church church1 = new Church(null,"44.877.055/0001-50","Igreja o Brasil Para Cristo","Igreja evangelica");
+		Church church2 = new Church(null,"15.123.280/0001-00","Igreja Metodista","A Igreja Metodista cumpre a sua missão "
 				+ "realizando o culto de Deus, pregando a Sua Palavra, ministrando os sacramentos, promovendo a fraternidade e a disciplina cristãs e proporcionando a seus membros meios "
 				+ "para alcançarem uma experiência cristã progressiva, visando ao desempenho de seu testemunho e serviço no mundo.");
 		
-	
- 		churchRepository.saveAll(Arrays.asList(church1, church2));
- 		
- 		
+
+		churchRepository.saveAll(Arrays.asList(church1, church2));
+		
+		
 		State state1 = new State(null, "Paraíba");
 		State state2 = new State(null, "São Paulo");
 		
@@ -79,13 +78,15 @@ public class MychurchApplication implements CommandLineRunner {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
-		PostEvent pte1 = new PostEvent(null, "Culto de Oração", "",church1, sdf.parse("15/08/2018 19:30"),  sdf.parse("15/08/2018 21:30"));
-		PostEvent pte2 = new PostEvent(null, "Culto Matinal", "",church1, sdf.parse("13/08/2018 06:30"),  sdf.parse("15/08/2018 08:30"));
-		PostArticle pta1 = new PostArticle(null, "Os principios da biblia","Artigo sobre a pregação do culto de oração", church2, "resumo", "desconhecido",sdf.parse("18/08/2018 10:00"));
-		PostEvent pte3 = new PostEvent(null, "Culto Matinal", "",church2, sdf.parse("13/08/2018 06:30"),  sdf.parse("15/08/2018 08:30"));
+		Post pt1 = new Post(null, "Culto Matinal", "show", church1);
+		Post pt2 = new Post(null, "Culto de Oração", "show3", church1);
+		Post pt3 = new Post(null, "Culto dos Jovens", "show4", church2);
+		Post pt4 = new Post(null, "UHULL", "massa", church2);
+	
 		
-		
-		postRepository.saveAll(Arrays.asList(pte1, pta1,pte2,pte3));
+		postRepository.saveAll(Arrays.asList(pt1, pt2,pt3,pt4));
+	
+ 		
 		
 		
 	}

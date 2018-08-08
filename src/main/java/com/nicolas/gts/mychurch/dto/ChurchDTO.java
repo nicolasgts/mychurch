@@ -13,14 +13,15 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.Post;
+import com.nicolas.gts.mychurch.services.validation.ChurchUpdate;
 
+@ChurchUpdate
 public class ChurchDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	
-	@NotEmpty(message="this field is required")
 	@Length(min=10,max=70,  message="The size should be between 10 and 70 characters")
 	private String name;
 	
@@ -29,7 +30,6 @@ public class ChurchDTO implements Serializable {
 	private String description;
 	private List<Adress> adresses = new ArrayList<>();
 	
-	@NotEmpty(message="this field is required")
 	@CNPJ(message="Cnpj Invalid")
 	private String cnpj;
 

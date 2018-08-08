@@ -19,24 +19,45 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicolas.gts.mychurch.domain.Adress;
 import com.nicolas.gts.mychurch.domain.Post;
 import com.nicolas.gts.mychurch.domain.User;
+import com.nicolas.gts.mychurch.services.validation.ChurchInsert;
 
+@ChurchInsert
 public class ChurchNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	
+	
+	@NotEmpty(message="this field is required")
+	@CNPJ(message="Cnpj Invalid")
 	private String cnpj;
+
+	@NotEmpty(message="this field is required")
+	@Length(min=10,max=70,  message="The size should be between 10 and 70 characters")
 	private String name;
+
+	@Length(min=5,max=300,  message="The size should be between 5 and 300 characters")
 	private String description;
 
+	@NotEmpty(message="this field is required")
 	private String street;
+	@NotEmpty(message="this field is required")
 	private String number;
+	
 	private String complement;
 	private String district;
+	
+	@NotEmpty(message="this field is required")
 	private String zipcode;
 	
+	@NotEmpty(message="this field is required")
 	private String name_user;
+	@NotEmpty(message="this field is required")
+	@Length(min=6,max=12,  message="The password's size should be between 6 and 12 characters")
 	private String password;
+	@NotEmpty(message="this field is required")
 	private String email_user;
+	@NotEmpty(message="this field is required")
 	private String cpf_user;
 	
 	private Integer city_id;
@@ -149,6 +170,9 @@ public class ChurchNewDTO implements Serializable {
 	public void setCity_id(Integer city_id) {
 		this.city_id = city_id;
 	}
+
+
+
 	
 	
 

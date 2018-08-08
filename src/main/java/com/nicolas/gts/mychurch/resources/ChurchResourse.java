@@ -30,9 +30,10 @@ public class ChurchResourse {
 	private ChurchService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Church> find(@PathVariable Integer id) {
+	public ResponseEntity<ChurchDTO> find(@PathVariable Integer id) {
 		Church obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+		ChurchDTO church = new ChurchDTO(obj);
+		return ResponseEntity.ok().body(church);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

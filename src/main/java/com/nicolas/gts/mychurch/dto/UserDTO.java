@@ -2,12 +2,12 @@ package com.nicolas.gts.mychurch.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.User;
 
 
@@ -18,11 +18,10 @@ public class UserDTO implements Serializable {
 
 	private Integer id;
 	
-	@NotEmpty(message="this field is required")
+	
 	@Length(min=10,max=120,  message="The size should be between 10 and 120 characters")
 	private String name;
 	
-	@NotEmpty(message="this field is required")
 	@Email(message="Invalid Email")
 	private String email;
 	

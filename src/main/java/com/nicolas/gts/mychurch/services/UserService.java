@@ -2,6 +2,8 @@ package com.nicolas.gts.mychurch.services;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,9 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.User;
-import com.nicolas.gts.mychurch.dto.ChurchDTO;
 import com.nicolas.gts.mychurch.dto.UserDTO;
+import com.nicolas.gts.mychurch.dto.UserNewDTO;
 import com.nicolas.gts.mychurch.repositories.UserRepository;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
@@ -26,6 +29,13 @@ public class UserService {
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + User.class.getName()));
+	}
+	
+	@Transactional
+	public User insert(User obj) {
+		obj.setId(null);
+		obj = repo.save(obj);
+		return obj;
 	}
 	
 	
@@ -60,5 +70,10 @@ public class UserService {
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), null , null);
 	}
+	
+	public User fromDTO(UserNewDTO objDto) {
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword(), objDto.getCpf(), objDto.getChurch());
+	}
+
 
 }
