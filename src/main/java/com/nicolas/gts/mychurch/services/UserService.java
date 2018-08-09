@@ -1,6 +1,5 @@
 package com.nicolas.gts.mychurch.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,11 +12,13 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.User;
+import com.nicolas.gts.mychurch.domain.enums.Profile;
 import com.nicolas.gts.mychurch.dto.UserDTO;
 import com.nicolas.gts.mychurch.dto.UserNewDTO;
 import com.nicolas.gts.mychurch.repositories.UserRepository;
+import com.nicolas.gts.mychurch.security.UserSS;
+import com.nicolas.gts.mychurch.services.exceptions.AuthorizationException;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 
@@ -31,7 +32,23 @@ public class UserService {
 	
 	
 	public User find(Integer id) {
+		
+		
+		
+		UserSS user = UserServiceAuth.authenticated();
+		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Access denied");
+		}
+		
+		Optional<User> currentUser = repo.findById(user.getId());
 		Optional<User> obj = repo.findById(id);
+		
+		if(obj.get().getChurch().getId() != currentUser.get().getChurch().getId()) {
+			throw new AuthorizationException("Access denied");
+		}
+		
+
+		obj.get().getChurch().getId();
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + User.class.getName()));
 	}
