@@ -1,5 +1,6 @@
 package com.nicolas.gts.mychurch.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nicolas.gts.mychurch.domain.Church;
 import com.nicolas.gts.mychurch.domain.User;
 import com.nicolas.gts.mychurch.domain.enums.Profile;
 import com.nicolas.gts.mychurch.dto.UserDTO;
@@ -37,14 +39,14 @@ public class UserService {
 		
 		UserSS user = UserServiceAuth.authenticated();
 		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
-			throw new AuthorizationException("Access denied");
+			throw new AuthorizationException("Access denied no find");
 		}
 		
 		Optional<User> currentUser = repo.findById(user.getId());
 		Optional<User> obj = repo.findById(id);
 		
 		if(obj.get().getChurch().getId() != currentUser.get().getChurch().getId()) {
-			throw new AuthorizationException("Access denied");
+			throw new AuthorizationException("Access denied no find");
 		}
 		
 
@@ -58,6 +60,10 @@ public class UserService {
 		obj.setId(null);
 		obj = repo.save(obj);
 		return obj;
+	}
+	
+	public void saveAll(List<User> users){
+		repo.saveAll(users);
 	}
 	
 	

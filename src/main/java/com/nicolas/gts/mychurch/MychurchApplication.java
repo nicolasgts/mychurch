@@ -68,9 +68,11 @@ public class MychurchApplication implements CommandLineRunner {
 		churchRepository.saveAll(Arrays.asList(church1, church2));
 		
 		User user1 = new User(null, "Nicolas", "nicolas@email.com",pe.encode("123456") , "082.945.970-74", church1);
-		User user2 = new User(null, "Fulano", "fulano@email.com",pe.encode("123456") , "448.265.770-01", church2);
+		User user2 = new User(null, "fulano2 e pa", "fulano2@email.com",pe.encode("123456") , "088.945.970-24", church1);
+		User user3 = new User(null, "Fulano", "fulano@email.com",pe.encode("123456") , "448.265.770-01", church2);
 		user1.addProfile(Profile.ADMIN);
-		userRepository.saveAll(Arrays.asList(user1, user2));
+		user3.addProfile(Profile.ADMIN);
+		userRepository.saveAll(Arrays.asList(user1, user2,user3));
 		
 		
 		State state1 = new State(null, "Paraíba");

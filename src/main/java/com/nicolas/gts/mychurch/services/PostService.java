@@ -10,7 +10,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nicolas.gts.mychurch.domain.Post;
+import com.nicolas.gts.mychurch.domain.User;
 import com.nicolas.gts.mychurch.repositories.PostRepository;
+import com.nicolas.gts.mychurch.security.UserSS;
+import com.nicolas.gts.mychurch.services.exceptions.AuthorizationException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -20,6 +23,11 @@ public class PostService {
 	@Autowired
 	private PostRepository repo;
 	
+	@Autowired 
+	private ChurchService churchService;
+	
+	@Autowired
+	private UserService userService;
 
 	public Post find(Integer id) {
 		Optional<Post> obj = repo.findById(id);
@@ -27,11 +35,13 @@ public class PostService {
 				"Object not found! Id: " + id + ", Type: " + Post.class.getName()));
 	}
 	
-	
 	public Page<Post> search(Integer churchId, Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.search(churchId, pageRequest);
 	}
+	
+	
+	
 	
 	public Post insert(Post obj) {
 		obj.setId(null);

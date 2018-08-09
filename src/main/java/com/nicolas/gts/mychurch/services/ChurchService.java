@@ -21,7 +21,8 @@ import com.nicolas.gts.mychurch.dto.ChurchDTO;
 import com.nicolas.gts.mychurch.dto.ChurchNewDTO;
 import com.nicolas.gts.mychurch.repositories.AdressRepository;
 import com.nicolas.gts.mychurch.repositories.ChurchRepository;
-import com.nicolas.gts.mychurch.repositories.UserRepository;
+import com.nicolas.gts.mychurch.security.UserSS;
+import com.nicolas.gts.mychurch.services.exceptions.AuthorizationException;
 import com.nicolas.gts.mychurch.services.exceptions.DataIntegrityException;
 import com.nicolas.gts.mychurch.services.exceptions.ObjectNotFoundException;
 
@@ -33,7 +34,7 @@ public class ChurchService {
 	private ChurchRepository repo;
 	
 	@Autowired
-	private UserRepository repoUser;
+	private UserService userService;
 	
 	@Autowired
 	private AdressRepository repoAdress;
@@ -54,11 +55,18 @@ public class ChurchService {
 		obj.setId(null);
 		obj = repo.save(obj);
 		repoAdress.saveAll(obj.getAdresses());
-		repoUser.saveAll(obj.getUsers());
+		userService.saveAll(obj.getUsers());
 		return obj;
 	}
 	
 	public Church update(Church obj) {
+		UserSS user = UserServiceAuth.authenticated();
+		User currentUser = userService.find(user.getId());
+		if (user == null || currentUser == null 
+				|| !(currentUser.getChurch().getId() == obj.getId())) {
+			throw new AuthorizationException("Access Denied !");
+		}
+		
 		Church newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
@@ -67,6 +75,13 @@ public class ChurchService {
 	
 	public void delete(Integer id) {
 		find(id);
+		UserSS user = UserServiceAuth.authenticated();
+		User currentUser = userService.find(user.getId());
+		if (user == null || currentUser == null 
+				|| !(currentUser.getChurch().getId() == id)) {
+			throw new AuthorizationException("Access Denied !");
+		}
+		
 		try {
 			repo.deleteById(id);
 		}
